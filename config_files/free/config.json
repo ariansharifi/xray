@@ -1,0 +1,94 @@
+{
+    "log": {
+      "loglevel": "error" // Level of log
+    //   "access": "/var/log/v2ray.log",  // Your path of in windows
+    //   "error": "/var/log/v2ray-error.log"
+    },	
+    "inbounds": [
+      {
+        "sniffing": {
+          "enabled": true,
+          "destOverride": [
+            "http",
+            "tls"
+          ]
+        },
+        "port": 80,
+        "protocol": "vmess",
+        "allocate": {
+          "strategy": "always"
+        },
+        "settings": {
+          "clients": [
+            {
+              "id": "8d8ea204-2fc6-4319-9cf2-6c2e1780a190",
+              "level": 1,
+              "alterId": 0,
+              "email": "admin@kookoo.com"
+            }
+          ],
+          "disableInsecureEncryption": false
+        },
+        "streamSettings": {
+          "network": "ws",
+          "wsSettings": {
+            "connectionReuse": true,
+            "path": "/graphql"
+          },
+          "security": "none",
+          "tcpSettings": {
+            "header": {
+              "type": "http",
+              "response": {
+                "version": "1.1",
+                "status": "200",
+                "reason": "OK",
+                "headers": {
+                  "Content-Type": [
+                    "application/octet-stream",
+                    "application/x-msdownload",
+                    "text/html",
+                    "application/x-shockwave-flash"
+                  ],
+                  "Transfer-Encoding": ["chunked"],
+                  "Connection": ["keep-alive"],
+                  "Pragma": "no-cache"
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "protocol": "freedom",
+        "settings": {}
+      },
+      {
+        "protocol": "blackhole",
+        "settings": {},
+        "tag": "block"
+      }
+    ],
+    "routing": {
+      "domainStrategy": "AsIs",
+      "rules": [
+        {
+          "type": "field",
+          "outboundTag": "block",
+          "protocol": [
+            "bittorrent"
+          ]
+        },
+        {
+          "ip": [
+            "geoip:ir"
+          ],
+          "outboundTag": "block",
+          "type": "field"
+        }
+      ]
+    }
+  }
+  
